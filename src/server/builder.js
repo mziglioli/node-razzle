@@ -1,14 +1,17 @@
+import React from 'react';
+import { App } from "../components";
+import { renderToString } from "react-dom/server";
+
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
-export const cssLinksFromAssets = (entrypoint) => {
-    return assets[entrypoint] ? assets[entrypoint].css ?
-        assets[entrypoint].css.map(asset=>
-            `<link rel="stylesheet" href="${asset}">`
-        ).join('') : '' : '';
+
+export const buildCss = (entrypoint) => {
+    return assets[entrypoint].css;
 };
 
-export const jsScriptTagsFromAssets = (entrypoint, extra = '') => {
-    return assets[entrypoint] ? assets[entrypoint].js ?
-        assets[entrypoint].js.map(asset=>
-            `<script src="${asset}"${extra}></script>`
-        ).join('') : '' : '';
+export const buildJs = (entrypoint) => {
+    return assets[entrypoint].js;
+};
+
+export const buildAppContainer = () => {
+    return renderToString(<App />);
 };
